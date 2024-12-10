@@ -1,0 +1,14 @@
+@startuml
+autonumber
+
+Wystawca -> Backend: WYstawia aukcje
+Backend -> BazaDanych: Robi wpis aukcji w bazie
+BazaDanych --> Backend: Zwraca informacje
+Backend --> Wystawca: Zwraca informacje o wystawionej aukcji
+
+Wystawca -> Backend: Edytuje aukcje
+Backend -> BazaDanych: Edytuje wpis w bazie
+Backend --> Wystawca: Potwierdza edycje
+
+Backend --> Wystawca: Informuje o zakończeniu aukcji
+@enduml

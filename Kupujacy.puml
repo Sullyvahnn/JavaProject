@@ -1,0 +1,17 @@
+@startuml
+autonumber
+
+Kupujacy -> Backend: Sprawdza aukcje
+Backend -> BazaDanych: Prosi o informacje
+BazaDanych --> Backend: Zwraca informacje
+Backend --> Kupujacy: Zwraca informacje o przedmiocie
+
+
+Kupujacy -> Backend: Składa ofertę
+Backend -> BazaDanych: Sprawdza oferte
+BazaDanych --> Backend: Informacja zwrotna
+Backend --> Kupujacy: Potwierdza albo odrzuca
+Backend -> Wystawca: Kończy aukcje
+Backend --> Kupujacy: Wysyła informacje o wygranej aukcji
+
+@enduml
