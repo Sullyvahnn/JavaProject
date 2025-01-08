@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.javaproject.HelloController">
    <children>
       <VBox prefHeight="140.0" prefWidth="400.0">
          <children>
@@ -24,11 +24,11 @@
             <HBox prefHeight="70.0" prefWidth="400.0">
                <children>
                   <Separator layoutX="110.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="30.0" visible="false" />
-                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Kupujący" />
+                  <Button fx:id="BuyerButtonClick" mnemonicParsing="false" onAction="#onBuyerButtonClick" prefHeight="40.0" prefWidth="100.0" text="Kupujący" />
                   <Separator orientation="VERTICAL" prefHeight="90.0" prefWidth="20.0" visible="false" />
-                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Wystawiający" />
+                  <Button fx:id="SellerButtonClick" mnemonicParsing="false" onAction="#onSellerButtonClick" prefHeight="40.0" prefWidth="100.0" text="Wystawiający" />
                   <Separator layoutX="64.0" layoutY="10.0" orientation="VERTICAL" prefHeight="90.0" prefWidth="20.0" visible="false" />
-                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Administrator" />
+                  <Button fx:id="AdminButtonClick" mnemonicParsing="false" onAction="#onAdminButtonClick" prefHeight="40.0" prefWidth="100.0" text="Administrator" />
                </children>
             </HBox>
          </children>
