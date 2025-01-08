@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="600" prefWidth="700" spacing="20" style="-fx-padding: 30;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <Label style="-fx-font-size: 22px;" text="Widok Wystawiającego" />
+   <GridPane hgap="15" vgap="15">
+      <TextField promptText="Tytuł aukcji" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+      <TextField promptText="Cena początkowa" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      <TextField promptText="Czas trwania (minuty)" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+      <Button text="Dodaj aukcję" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+   </GridPane>
+   <TableView>
+      <columns>
+         <TableColumn prefWidth="340.0" text="Tytuł" />
+         <TableColumn prefWidth="100.0" text="Aktualna Cena" />
+         <TableColumn prefWidth="100.0" text="Czas do końca" />
+         <TableColumn prefWidth="100.0" text="Licytujących" />
+      </columns>
+   </TableView>
+   <Button prefWidth="200" text="Zobacz Licytujących" />
+</VBox>

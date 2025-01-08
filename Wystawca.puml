@@ -1,7 +1,7 @@
 @startuml
 autonumber
 
-Wystawca -> Backend: WYstawia aukcje
+Wystawca -> Backend: Wystawia aukcje
 Backend -> BazaDanych: Robi wpis aukcji w bazie
 BazaDanych --> Backend: Zwraca informacje
 Backend --> Wystawca: Zwraca informacje o wystawionej aukcji

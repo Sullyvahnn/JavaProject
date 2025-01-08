@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600" prefWidth="700" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label style="-fx-font-size: 22px; -fx-padding: 10;" text="Widok Kupującego" />
+   </top>
+   <center>
+      <TabPane>
+         <!-- Zakładka: Przeglądaj Aukcje -->
+         <Tab text="Przeglądaj Aukcje">
+            <VBox spacing="20" style="-fx-padding: 20;">
+               <TextField promptText="Wyszukaj aukcje..." />
+               <TableView>
+                  <columns>
+                     <TableColumn prefWidth="220.0" text="Tytuł" />
+                     <TableColumn prefWidth="100.0" text="Aktualna Cena" />
+                     <TableColumn prefWidth="100.0" text="Czas do końca" />
+                     <TableColumn prefWidth="100.0" text="Licytujących" />
+                     <TableColumn prefWidth="100.0" text="Wystawiający" />
+                  </columns>
+               </TableView>
+               <HBox alignment="CENTER" spacing="20">
+                  <TextField prefWidth="200" promptText="Kwota licytacji" />
+                  <Button prefWidth="100" text="Licytuj" />
+               </HBox>
+            </VBox>
+         </Tab>
+
+         <!-- Zakładka: Moje Licytacje -->
+         <Tab text="Moje Licytacje">
+            <VBox prefHeight="881.0" prefWidth="649.0" spacing="20" style="-fx-padding: 20;">
+               <TableView>
+                  <columns>
+                     <TableColumn prefWidth="320.0" text="Tytuł" />
+                     <TableColumn prefWidth="100.0" text="Moja Oferta" />
+                     <TableColumn minWidth="0.0" prefWidth="100.0" text="Czas do końca" />
+                     <TableColumn prefWidth="100.0" text="Aktualna Cena" />
+                  </columns>
+               </TableView>
+               <Button alignment="CENTER" prefWidth="150" text="Odśwież Licytacje" />
+            </VBox>
+         </Tab>
+      </TabPane>
+   </center>
+</BorderPane>
