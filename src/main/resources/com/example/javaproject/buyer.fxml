@@ -12,35 +12,18 @@
          <!-- Zakładka: Przeglądaj Aukcje -->
          <Tab text="Przeglądaj Aukcje">
             <VBox spacing="20" style="-fx-padding: 20;">
-               <TextField promptText="Wyszukaj aukcje..." />
-               <TableView>
+               <TableView fx:id="table">
                   <columns>
-                     <TableColumn prefWidth="220.0" text="Tytuł" />
-                     <TableColumn prefWidth="100.0" text="Aktualna Cena" />
-                     <TableColumn prefWidth="100.0" text="Czas do końca" />
-                     <TableColumn prefWidth="100.0" text="Licytujących" />
-                     <TableColumn prefWidth="100.0" text="Wystawiający" />
+                     <TableColumn fx:id="titleColumn" prefWidth="340.0" text="Tytuł" />
+                     <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Aktualna Cena" />
+                     <TableColumn fx:id="timeColumn" prefWidth="100.0" text="Czas do końca" />
+                     <TableColumn fx:id="licitatorsNumberColumn" prefWidth="100.0" text="Wygrywa" />
                   </columns>
                </TableView>
                <HBox alignment="CENTER" spacing="20">
                   <TextField fx:id="OfferedAmountTextField" onAction="#onOfferedAmountTextField" prefWidth="200" promptText="Kwota licytacji" />
                   <Button fx:id="OfferButtonClick" onAction="#onOfferButtonClick" prefWidth="100" text="Licytuj" />
                </HBox>
-            </VBox>
-         </Tab>
-
-         <!-- Zakładka: Moje Licytacje -->
-         <Tab text="Moje Licytacje">
-            <VBox prefHeight="881.0" prefWidth="649.0" spacing="20" style="-fx-padding: 20;">
-               <TableView>
-                  <columns>
-                     <TableColumn prefWidth="320.0" text="Tytuł" />
-                     <TableColumn prefWidth="100.0" text="Moja Oferta" />
-                     <TableColumn minWidth="0.0" prefWidth="100.0" text="Czas do końca" />
-                     <TableColumn prefWidth="100.0" text="Aktualna Cena" />
-                  </columns>
-               </TableView>
-               <Button fx:id="RefreshBidButtonClick" alignment="CENTER" onAction="#onRefreshBidButtonClick" prefWidth="150" text="Odśwież Licytacje" />
             </VBox>
          </Tab>
       </TabPane>

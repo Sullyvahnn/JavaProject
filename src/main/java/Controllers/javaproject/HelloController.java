@@ -26,5 +26,6 @@ public class HelloController {
 
     public void onAdminButtonClick(ActionEvent event) {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        HelloApplication.load(stage, "admin.fxml");    }
+        HelloApplication.load(stage, "admin.fxml");
+    }
 }

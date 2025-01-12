@@ -1,14 +1,21 @@
 package com.example.javaproject;
 
+import AuctionClass.Auction;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 
 public class HelloApplication extends Application {
+    public static ObservableList<Auction> auctions = FXCollections.observableArrayList();
+    public static void addToList(Auction auction) {
+        auctions.add(auction);
+    }
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -16,26 +23,6 @@ public class HelloApplication extends Application {
         stage.setTitle("Zaloguj się");
         stage.setScene(scene);
         stage.show();
-    }
-    public static void loadBuyer(Stage primaryStage) {
-        try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("buyer.fxml"));
-            Parent root = loader.load();
-
-            // Create a new scene with the loaded FXML
-            Scene buyerScene = new Scene(root);
-
-            // Set the scene to the stage
-            primaryStage.setScene(buyerScene);
-            primaryStage.setTitle("Buyer Screen");
-
-            // Optionally, show the stage (if switching from another stage)
-            primaryStage.show();
-        } catch (IOException e) {
-            // Handle FXML loading errors
-            System.out.println("Can't load buyer.fxml");
-        }
     }
     public static void load(Stage primaryStage, String FXML_name) {
         try {
@@ -45,7 +32,6 @@ public class HelloApplication extends Application {
 
             // Create a new scene with the loaded FXML
             Scene buyerScene = new Scene(root);
-
             // Set the scene to the stage
             primaryStage.setScene(buyerScene);
             primaryStage.setTitle("Main Application");
@@ -53,10 +39,10 @@ public class HelloApplication extends Application {
             if(!FXML_name.equals("hello-view.fxml")) {
                 // Intercept the close request
                 event.consume(); // Prevent the application from closing
+
                 // Load the login screen instead
                 load(primaryStage, "hello-view.fxml");
             }
-
             });
 
             // Optionally, show the stage (if switching from another stage)
@@ -65,6 +51,12 @@ public class HelloApplication extends Application {
             // Handle FXML loading errors
             System.out.println("Can't load fxml");
         }
+    }
+    public static ObservableList<Auction> getItems() {
+        return auctions;
+    }
+    public static void removeItem(Auction auction) {
+        auctions.remove(auction);
     }
 
     public static void main(String[] args) {

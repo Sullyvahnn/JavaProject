@@ -1,36 +1,50 @@
 package AuctionClass;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class Auction {
     private static int id_ = 0;
-    private Integer id;
+    private final Integer id;
     boolean is_active;
-    public Product product;
-    double timeout; // [s]
+    String title;
+    int timeout; // [s]
+    int currentTimeout;
     double price;
     double minBid;
     double durationTime;
     boolean is_paused;
     Integer currentWinnerID;
+    SimpleStringProperty tableTitle;
+    SimpleDoubleProperty tablePrice;
+    SimpleIntegerProperty tableTimeout;
+    SimpleStringProperty currentWinner;
 
-    public Auction(Product product, double durationTime, double minBid) {
+    public Auction(String title, double startingPrice, int timeout) {
         id_ += 1;
         this.id = id_;
-        this.product = product;
+        this.title = title;
         this.is_active = false;
-        this.timeout = durationTime;
-        this.price = this.product.getPrice();
-        this.minBid = minBid;
-        this.durationTime = durationTime;
+        this.durationTime = timeout;
+        this.timeout = timeout;
+        this.currentTimeout = timeout;
+        this.price = startingPrice;
+        this.minBid = (int)(startingPrice * 0.1);
         this.is_paused = false;
+        tableTitle = new SimpleStringProperty(title);
+        tablePrice = new SimpleDoubleProperty(startingPrice);
+        currentWinner = new SimpleStringProperty("");
+        tableTimeout = new SimpleIntegerProperty(timeout);
     }
     public void start() {
         this.is_active = true;
         Thread timeoutDecrease = new Thread(() -> {
-            while (this.timeout > 0 && !this.is_paused) {
-                this.timeout -= 0.01;
+            while (this.currentTimeout > 0 && !this.is_paused) {
+                this.currentTimeout -= 1;
                 // Sleep for 1 second
                 try {
-                    Thread.sleep(10); // 1000 milliseconds = 1 second
+                    Thread.sleep(1000); // 1000 milliseconds = 1 second
                 } catch (InterruptedException e) {
                     System.err.println("Thread interrupted: " + e.getMessage());
                     break; // Exit the loop if interrupted
@@ -38,7 +52,7 @@ public class Auction {
             }
 
             // Final timeout message
-            if (this.timeout <= 0) {
+            if (this.currentTimeout <= 0) {
                 this.end();
             }
         });
@@ -55,19 +69,27 @@ public class Auction {
     public void end() {
         this.is_active = false;
     }
-    public void makeBid(double price, Integer userID) {
+    public void makeBid(double price, String user) {
         if (this.is_active && this.minBid < price) {
             this.price += price;
-            this.timeout = this.durationTime;
-            this.currentWinnerID = userID;
+            this.currentTimeout = this.timeout;
+            this.currentWinnerID = 1;
+            currentWinner = new SimpleStringProperty(user);
         }
     }
-    public void showStatus() {
-        String product_status = product.getStatus();
-        String auction_status = "";
-        auction_status += "AuctionClass.Auction ID: " + this.id.toString() + "isActive: " + this.is_active;
-        System.out.println(auction_status);
-        System.out.println(product_status);
+
+    public SimpleStringProperty getTitle() {
+        return tableTitle;
     }
+    public SimpleDoubleProperty getPrice() {
+        return tablePrice;
+    }
+    public SimpleIntegerProperty getCurrentTimeout() {
+        return tableTimeout;
+    }
+    public SimpleStringProperty getCurrentWinner() {
+        return currentWinner;
+    }
+
 }
 
