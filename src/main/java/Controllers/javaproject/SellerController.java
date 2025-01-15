@@ -31,8 +31,6 @@ public class SellerController {
     public void onStartPriceTextField(ActionEvent actionEvent) {
     }
 
-    public void onAuctionTimeTextField(ActionEvent actionEvent) {
-    }
 
     public void onAddAuctionButtonClick(ActionEvent actionEvent) {
         String title = AuctionTitleTextField.getText();
@@ -45,6 +43,12 @@ public class SellerController {
     }
 
     public void onViewBiddersButtonClick(ActionEvent actionEvent) {
+        Auction auction = table.getSelectionModel().getSelectedItem();
+        if(auction == null) {
+            HelloApplication.createAlert("Nie wybrano aukcji");
+            return;
+        }
+        showPoppingScreen(auction,1,"bidders.fxml");
     }
     public void initialize() {
         titleColumn.setCellValueFactory(cellData -> cellData.getValue().getTitle());
@@ -55,7 +59,7 @@ public class SellerController {
         startRefreshing();
     }
     public void handleMouseClick(MouseEvent event) {
-        if (event.getClickCount() == 1) {
+        if (event.getClickCount() == 2) {
             TablePosition<?, ?> pos = table.getSelectionModel().getSelectedCells().getFirst();
             int row = pos.getRow();
             int col = pos.getColumn();
@@ -82,12 +86,19 @@ public class SellerController {
             if("is_active.fxml".equals(fxmFile)) {
                 ChangeActiveStateController changeActiveStateController = loader.getController();
                 changeActiveStateController.start(row);
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Popup Window");
+                popupStage.setScene(new Scene(root, 400, 200));
+                popupStage.show();
             }
-            // Create a new stage for the popup window
-            Stage popupStage = new Stage();
-            popupStage.setTitle("Popup Window");
-            popupStage.setScene(new Scene(root, 400, 200));
-            popupStage.show();
+            if("bidders.fxml".equals(fxmFile)) {
+                BiddersController changeActiveStateController = loader.getController();
+                changeActiveStateController.start(auction);
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Popup Window");
+                popupStage.setScene(new Scene(root, 380, 540));
+                popupStage.show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

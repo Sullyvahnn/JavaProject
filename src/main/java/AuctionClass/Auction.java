@@ -4,6 +4,9 @@ import com.example.javaproject.HelloApplication;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.util.Pair;
 
 public class Auction {
     private static int id_ = 0;
@@ -13,7 +16,6 @@ public class Auction {
     int timeout; // [s]
     int currentTimeout;
     double price;
-    double minBid;
     double durationTime;
     boolean is_paused;
     SimpleStringProperty tableTitle;
@@ -21,6 +23,7 @@ public class Auction {
     SimpleIntegerProperty tableTimeout;
     SimpleStringProperty currentWinner;
     private boolean is_ended;
+    public ObservableList<Pair<SimpleStringProperty, SimpleDoubleProperty>> bidders;
     String winner;
     public Auction(String title, double startingPrice, int timeout) {
         id_ += 1;
@@ -36,6 +39,7 @@ public class Auction {
         tablePrice = new SimpleDoubleProperty(startingPrice);
         currentWinner = new SimpleStringProperty("");
         tableTimeout = new SimpleIntegerProperty(timeout);
+        bidders = FXCollections.observableArrayList();
     }
     public void start() {
         if(is_paused) {
@@ -93,6 +97,9 @@ public class Auction {
 
             this.winner = user;
             currentWinner = new SimpleStringProperty(user);
+            SimpleDoubleProperty currentPrice = new SimpleDoubleProperty(this.price);
+            Pair<SimpleStringProperty, SimpleDoubleProperty> userPair = new Pair(currentWinner, currentPrice);
+            this.bidders.add(userPair);
         }
     }
 
