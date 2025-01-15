@@ -64,10 +64,8 @@ public class BuyerController{
     }
     public  void updateUI() {
         table.setItems(activeAuctions);
+        BalanceTextField.setText(String.valueOf(currentUser.getMoney()));
         table.refresh();
-
-
-        accountStatus.setText(String.valueOf(currentUser.getMoney()));
     }
     Thread refreshThread = new Thread(() -> {
         while (true) {
@@ -102,21 +100,11 @@ public class BuyerController{
     public void onDeposit(ActionEvent actionEvent) {
         try {
             double depositAmount = Double.parseDouble(PaymentAmountTextField.getText());
-            currentUser.addMoney(depositAmount);
+            int idx = HelloApplication.users.indexOf(currentUser);
+            HelloApplication.users.get(idx).addMoney(depositAmount);
             updateUI();
         } catch (NumberFormatException e) {
             HelloApplication.createAlert("Nieprawidłowa kwota wpłaty");
-        }
-    }
-
-    public void onCalculateDifference(ActionEvent actionEvent) {
-        try {
-            double depositAmount = currentUser.getMoney();
-            double bidAmount = Double.parseDouble(OfferedAmountTextField.getText());
-            double difference = depositAmount - bidAmount;
-            BalanceTextField.setText(String.valueOf(difference));
-        } catch (NumberFormatException e) {
-            HelloApplication.createAlert("Nieprawidłowe dane w polach kwot");
         }
     }
 

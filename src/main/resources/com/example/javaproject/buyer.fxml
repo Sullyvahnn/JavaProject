@@ -37,7 +37,7 @@
                <TextField fx:id="PaymentAmountTextField" prefWidth="120.0" promptText="Kwota wpłaty" />
                <Button fx:id="PayButtonClick" onAction="#onDeposit" prefWidth="100" text="Wpłać" />
                <Label text="Saldo" />
-               <TextField fx:id="BalanceTextField" onAction="#onCalculateDifference" prefWidth="120.0" />
+               <TextField fx:id="BalanceTextField" prefWidth="120.0" />
             </HBox>
          </children>
       </HBox>
