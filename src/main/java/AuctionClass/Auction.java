@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
 public class Auction {
-    private static int id_ = 0;
+    private  int id_ = 0;
     private final Integer id;
     public boolean is_active;
     String title;
@@ -22,17 +22,19 @@ public class Auction {
     SimpleDoubleProperty tablePrice;
     SimpleIntegerProperty tableTimeout;
     SimpleStringProperty currentWinner;
+    int currentWinnerID;
     private boolean is_ended;
     public ObservableList<Pair<SimpleStringProperty, SimpleDoubleProperty>> bidders;
     String winner;
-    public Auction(String title, double startingPrice, int timeout) {
-        id_ += 1;
+    public Auction(int ID, String title, double startingPrice, int timeout) {
+        this.id_ = ID;
         this.id = id_;
         this.title = title;
         this.is_active = false;
         this.durationTime = timeout;
         this.timeout = timeout;
         this.currentTimeout = timeout;
+
         this.price = startingPrice;
         this.is_paused = false;
         tableTitle = new SimpleStringProperty(title);
@@ -83,20 +85,20 @@ public class Auction {
         this.is_active = false;
         this.is_ended = true;
         this.currentWinner = new SimpleStringProperty(this.winner);
-        for(User user_ : HelloApplication.users) {
+        for(User user_ : DatabaseUpdater.getUsersData()) {
             if(user_.getName().equals(this.winner)) {
                 user_.removeMoney(this.price);
-                break;
+                DatabaseUpdater.updateUserSalary(currentWinnerID, user_.getMoney());
             }
         }
     }
-    public void makeBid(double price, String user) {
+    public void makeBid(double price, User user) {
         if (this.is_active && this.price < price) {
             this.price = price;
             this.currentTimeout = this.timeout;
-
-            this.winner = user;
-            currentWinner = new SimpleStringProperty(user);
+            this.currentWinnerID = user.getId();
+            this.winner = user.getName();
+            currentWinner = new SimpleStringProperty(user.getName());
             SimpleDoubleProperty currentPrice = new SimpleDoubleProperty(this.price);
             Pair<SimpleStringProperty, SimpleDoubleProperty> userPair = new Pair(currentWinner, currentPrice);
             this.bidders.add(userPair);

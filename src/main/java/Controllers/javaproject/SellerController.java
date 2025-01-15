@@ -37,7 +37,7 @@ public class SellerController {
         double price = Double.parseDouble(StartPriceTextField.getText());
         int timeout = Integer.parseInt(timeoutTextField.getText());
 
-        Auction auction = new Auction(title, price, timeout);
+        Auction auction = new Auction(0, title, price, timeout);
         HelloApplication.addToList(auction);
         updateUI();
     }
