@@ -1,6 +1,7 @@
 package com.example.javaproject;
 
 import AuctionClass.Auction;
+import AuctionClass.User;
 import Controllers.javaproject.ChangeActiveStateController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -15,12 +17,14 @@ import java.io.*;
 
 public class HelloApplication extends Application {
     public static ObservableList<Auction> auctions = FXCollections.observableArrayList();
+    public static ObservableList<User> users = FXCollections.observableArrayList();
     public static void addToList(Auction auction) {
         auctions.add(auction);
     }
     @Override
     public void start(Stage stage) throws IOException {
         simulateAuctions();
+        simulateUsers();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 200);
         stage.setTitle("Zaloguj się");
@@ -69,8 +73,25 @@ public class HelloApplication extends Application {
                 new Auction("telewizor", 3000, 180)
         );
     }
+    public static void simulateUsers() {
+        users.addAll(
+                new User("rich",10000),
+                new User("poor",0),
+                new User("Mikołaj",10)
+        );
+    }
 
     public static void main(String[] args) {
         launch();
+    }
+    public static void createAlert(String message) {
+        // Create an Alert of type INFORMATION
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error 404");
+        alert.setContentText(message);
+
+        // Show the Alert dialog
+        alert.showAndWait();
     }
 }

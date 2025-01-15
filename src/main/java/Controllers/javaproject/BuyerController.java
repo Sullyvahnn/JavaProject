@@ -1,13 +1,17 @@
 package Controllers.javaproject;
 
 import AuctionClass.Auction;
+import AuctionClass.User;
 import com.example.javaproject.HelloApplication;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+
+import java.util.Objects;
 
 public class BuyerController{
     public TableColumn<Auction, String> titleColumn;
@@ -16,14 +20,22 @@ public class BuyerController{
     public TableColumn<Auction, String> licitatorsNumberColumn;
     public TableView<Auction> table;
     public TextField OfferedAmountTextField;
+    public SplitMenuButton currentUserTextBox;
+    public TextField accountStatus;
     private ObservableList<Auction> auctions;
+    private ObservableList<Auction> activeAuctions;
+    User currentUser;
     public void onOfferedAmountTextField(ActionEvent actionEvent) {
     }
 
     public void onOfferButtonClick(ActionEvent actionEvent) {
-        int row = table.getSelectionModel().getSelectedIndex();
+        Auction auction = table.getSelectionModel().getSelectedItem();
         double value = Double.parseDouble(OfferedAmountTextField.getText());
-        HelloApplication.auctions.get(row).makeBid(value,"user");
+        if(currentUser.getMoney()>=value) {
+            int idx = HelloApplication.auctions.indexOf(auction);
+            HelloApplication.auctions.get(idx).makeBid(value,currentUser.getName());
+
+        } else HelloApplication.createAlert("Za malo pieniedzy");
 
     }
     public void initialize() {
@@ -32,12 +44,28 @@ public class BuyerController{
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentTimeout().asObject());
         licitatorsNumberColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentWinner());
         auctions = HelloApplication.getItems();
-        table.setItems(auctions);
+        activeAuctions = FXCollections.observableArrayList();
+        currentUser = HelloApplication.users.getFirst();
+        for(Auction auction : auctions) {
+            if(auction.is_active) {
+                activeAuctions.add(auction);
+            }
+        }
+        table.setItems(activeAuctions);
+        for (User user : HelloApplication.users) {
+            MenuItem menuItem = new MenuItem(user.getName());
+            menuItem.setOnAction(this::onMenuItem);
+            menuItem.setId(user.getName());
+            currentUserTextBox.getItems().add(menuItem);
+        }
         startRefreshing();
     }
     public  void updateUI() {
-        table.setItems(auctions);
+        table.setItems(activeAuctions);
         table.refresh();
+
+
+        accountStatus.setText(String.valueOf(currentUser.getMoney()));
     }
     Thread refreshThread = new Thread(() -> {
         while (true) {
@@ -53,5 +81,19 @@ public class BuyerController{
     });
     public void startRefreshing() {
         refreshThread.start();
+    }
+    public void onMenuItem(ActionEvent actionEvent) {
+        Object source = actionEvent.getSource();
+        if (source instanceof MenuItem menuItem) {
+            String id = menuItem.getId();
+            for (User user : HelloApplication.users) {
+                if (Objects.equals(user.getName(), id)) {
+                    currentUser = user;
+                    currentUserTextBox.setText(currentUser.getName());
+                }
+            }
+
+        }
+//
     }
 }

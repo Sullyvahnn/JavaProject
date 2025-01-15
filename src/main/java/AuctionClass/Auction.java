@@ -1,5 +1,6 @@
 package AuctionClass;
 
+import com.example.javaproject.HelloApplication;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Auction {
     private static int id_ = 0;
     private final Integer id;
-    boolean is_active;
+    public boolean is_active;
     String title;
     int timeout; // [s]
     int currentTimeout;
@@ -15,13 +16,12 @@ public class Auction {
     double minBid;
     double durationTime;
     boolean is_paused;
-    Integer currentWinnerID;
     SimpleStringProperty tableTitle;
     SimpleDoubleProperty tablePrice;
     SimpleIntegerProperty tableTimeout;
     SimpleStringProperty currentWinner;
     private boolean is_ended;
-
+    String winner;
     public Auction(String title, double startingPrice, int timeout) {
         id_ += 1;
         this.id = id_;
@@ -31,7 +31,6 @@ public class Auction {
         this.timeout = timeout;
         this.currentTimeout = timeout;
         this.price = startingPrice;
-        this.minBid = (int)(startingPrice * 0.1);
         this.is_paused = false;
         tableTitle = new SimpleStringProperty(title);
         tablePrice = new SimpleDoubleProperty(startingPrice);
@@ -79,12 +78,20 @@ public class Auction {
     public void end() {
         this.is_active = false;
         this.is_ended = true;
+        this.currentWinner = new SimpleStringProperty(this.winner);
+        for(User user_ : HelloApplication.users) {
+            if(user_.getName().equals(this.winner)) {
+                user_.removeMoney(this.price);
+                break;
+            }
+        }
     }
     public void makeBid(double price, String user) {
-        if (this.is_active && this.minBid < price) {
+        if (this.is_active && this.price < price) {
             this.price = price;
             this.currentTimeout = this.timeout;
-            this.currentWinnerID = 1;
+
+            this.winner = user;
             currentWinner = new SimpleStringProperty(user);
         }
     }
