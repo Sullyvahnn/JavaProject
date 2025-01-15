@@ -20,12 +20,13 @@
          <RowConstraints />
       </rowConstraints>
    </GridPane>
-   <TableView fx:id="table">
+   <TableView fx:id="table" onMouseClicked="#handleMouseClick">
       <columns>
-         <TableColumn fx:id="titleColumn" prefWidth="340.0" text="Tytuł" />
-         <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Aktualna Cena" />
-         <TableColumn fx:id="timeColumn" prefWidth="100.0" text="Czas do końca" />
-         <TableColumn fx:id="licitatorsNumberColumn" prefWidth="100.0" text="Wygrywa" />
+         <TableColumn fx:id="titleColumn" prefWidth="190.400026679039" text="Przedmiot" />
+         <TableColumn fx:id="priceColumn" prefWidth="58.80000305175781" text="Cena" />
+         <TableColumn fx:id="timeColumn" prefWidth="110.5999755859375" text="Czas do końca" />
+         <TableColumn fx:id="licitatorsNumberColumn" minWidth="0.0" prefWidth="153.99996948242188" text="Wygrywa" />
+         <TableColumn fx:id="isActiveColumn"  prefWidth="127.5999755859375" text="Aktywna" />
       </columns>
    </TableView>
    <Button fx:id="ViewBiddersButtonClick" onAction="#onViewBiddersButtonClick" prefWidth="200" text="Zobacz Licytujących" />

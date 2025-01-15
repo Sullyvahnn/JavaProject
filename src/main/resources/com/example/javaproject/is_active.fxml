@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.javaproject.ChangeActiveStateController">
+   <children>
+      <VBox prefHeight="140.0" prefWidth="400.0">
+         <children>
+            <AnchorPane prefHeight="70.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="70.0" prefWidth="400.0">
+                     <children>
+                        <Separator prefHeight="30.0" prefWidth="400.0" visible="false" />
+                        <HBox prefHeight="40.0" prefWidth="400.0">
+                           <children>
+                              <Separator orientation="VERTICAL" prefHeight="40.0" prefWidth="147.0" visible="false" />
+                              <Label prefHeight="20.0" prefWidth="106.0" text="Wybierz stan aukcji" />
+                           </children></HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <HBox prefHeight="70.0" prefWidth="400.0">
+               <children>
+                  <Separator layoutX="110.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="30.0" visible="false" />
+                  <Button fx:id="activeButton" mnemonicParsing="false" onAction="#onActiveButtonClick" prefHeight="40.0" prefWidth="100.0" text="Aktywna" />
+                  <Separator orientation="VERTICAL" prefHeight="90.0" prefWidth="20.0" visible="false" />
+                  <Button fx:id="aouseButton" mnemonicParsing="false" onAction="#onPouseButtonClick" prefHeight="40.0" prefWidth="100.0" text="Pauza" />
+                  <Separator layoutX="64.0" layoutY="10.0" orientation="VERTICAL" prefHeight="90.0" prefWidth="20.0" visible="false" />
+                  <Button fx:id="waitButton" mnemonicParsing="false" onAction="#onWaitButtonClick" prefHeight="40.0" prefWidth="100.0" text="Zakoncz" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

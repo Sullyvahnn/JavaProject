@@ -20,6 +20,7 @@ public class Auction {
     SimpleDoubleProperty tablePrice;
     SimpleIntegerProperty tableTimeout;
     SimpleStringProperty currentWinner;
+    private boolean is_ended;
 
     public Auction(String title, double startingPrice, int timeout) {
         id_ += 1;
@@ -38,10 +39,18 @@ public class Auction {
         tableTimeout = new SimpleIntegerProperty(timeout);
     }
     public void start() {
+        if(is_paused) {
+            unPause();
+            return;
+        }
+        if(is_ended) {
+            return;
+        }
         this.is_active = true;
         Thread timeoutDecrease = new Thread(() -> {
-            while (this.currentTimeout > 0 && !this.is_paused) {
-                this.currentTimeout -= 1;
+            while (this.currentTimeout > 0 && !this.is_ended) {
+                if(!is_paused) this.currentTimeout -= 1;
+
                 // Sleep for 1 second
                 try {
                     Thread.sleep(1000); // 1000 milliseconds = 1 second
@@ -50,6 +59,7 @@ public class Auction {
                     break; // Exit the loop if interrupted
                 }
             }
+
 
             // Final timeout message
             if (this.currentTimeout <= 0) {
@@ -63,15 +73,16 @@ public class Auction {
         this.is_paused = true;
     }
     public void unPause() {
-        this.is_active = true;
         this.is_paused = false;
+        this.is_active = true;
     }
     public void end() {
         this.is_active = false;
+        this.is_ended = true;
     }
     public void makeBid(double price, String user) {
         if (this.is_active && this.minBid < price) {
-            this.price += price;
+            this.price = price;
             this.currentTimeout = this.timeout;
             this.currentWinnerID = 1;
             currentWinner = new SimpleStringProperty(user);
@@ -82,13 +93,22 @@ public class Auction {
         return tableTitle;
     }
     public SimpleDoubleProperty getPrice() {
-        return tablePrice;
+        return new SimpleDoubleProperty(price);
     }
     public SimpleIntegerProperty getCurrentTimeout() {
-        return tableTimeout;
+        return new SimpleIntegerProperty(currentTimeout);
     }
     public SimpleStringProperty getCurrentWinner() {
         return currentWinner;
+    }
+
+    public SimpleStringProperty getCurrentState() {
+        SimpleStringProperty currentState = new SimpleStringProperty("");
+        if(is_ended) currentState.setValue("zakonczona");
+        else if(is_active) currentState.setValue("aktywna");
+        else if(is_paused) currentState.setValue("pauza");
+        else currentState.setValue("waiting to start");
+        return currentState;
     }
 
 }

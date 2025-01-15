@@ -1,12 +1,14 @@
 package com.example.javaproject;
 
 import AuctionClass.Auction;
+import Controllers.javaproject.ChangeActiveStateController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -18,6 +20,7 @@ public class HelloApplication extends Application {
     }
     @Override
     public void start(Stage stage) throws IOException {
+        simulateAuctions();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 200);
         stage.setTitle("Zaloguj się");
@@ -52,11 +55,19 @@ public class HelloApplication extends Application {
             System.out.println("Can't load fxml");
         }
     }
+
     public static ObservableList<Auction> getItems() {
         return auctions;
     }
     public static void removeItem(Auction auction) {
         auctions.remove(auction);
+    }
+    public static void simulateAuctions() {
+        auctions.addAll(
+                new Auction("zapalki", 9.99, 10),
+                new Auction("fotel", 200, 60),
+                new Auction("telewizor", 3000, 180)
+        );
     }
 
     public static void main(String[] args) {

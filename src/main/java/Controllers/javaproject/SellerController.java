@@ -2,12 +2,17 @@ package Controllers.javaproject;
 
 import AuctionClass.Auction;
 import com.example.javaproject.HelloApplication;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
-public class SellerController{
+public class SellerController {
     public TextField AuctionTitleTextField;
     public TextField StartPriceTextField;
     public TextField AuctionTimeTextField;
@@ -17,7 +22,7 @@ public class SellerController{
     public TableColumn<Auction, Integer> timeColumn;
     public TableColumn<Auction, String> licitatorsNumberColumn;
     public TableView<Auction> table;
-    private ObservableList<Auction> auctions;
+    public TableColumn<Auction, String> isActiveColumn;
 
 
     public void onAuctionTitleTextField(ActionEvent actionEvent) {
@@ -46,10 +51,61 @@ public class SellerController{
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().getPrice().asObject());
         timeColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentTimeout().asObject());
         licitatorsNumberColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentWinner());
-        auctions = HelloApplication.getItems();
-        table.setItems(auctions);
+        isActiveColumn.setCellValueFactory(cellData -> cellData.getValue().getCurrentState());
+        startRefreshing();
     }
-    public  void updateUI() {
-        table.setItems(auctions);
+    public void handleMouseClick(MouseEvent event) {
+        if (event.getClickCount() == 1) {
+            TablePosition<?, ?> pos = table.getSelectionModel().getSelectedCells().getFirst();
+            int row = pos.getRow();
+            int col = pos.getColumn();
+            Auction selectedAuction = table.getItems().get(row);
+            if (col == 4) {
+                showPoppingScreen(selectedAuction, row, "is_active.fxml");
+            }
+
+            if (col == 0)  showPoppingScreen(selectedAuction,row, "is_active.fxml");
+        }
+    }
+    public void updateUI() {
+        Platform.runLater(() -> {
+            table.setItems(HelloApplication.auctions);
+            table.refresh();
+        });
+
+    }
+    public void showPoppingScreen(Auction auction,int row, String fxmFile) {
+        try {
+            // Load FXML for the popup
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource(fxmFile));
+            AnchorPane root = loader.load();
+            if("is_active.fxml".equals(fxmFile)) {
+                ChangeActiveStateController changeActiveStateController = loader.getController();
+                changeActiveStateController.start(row);
+            }
+            // Create a new stage for the popup window
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Popup Window");
+            popupStage.setScene(new Scene(root, 400, 200));
+            popupStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    Thread refreshThread = new Thread(() -> {
+        while (true) {
+            try {
+                // Simulate background task
+                Thread.sleep(16);  // Refresh every 5 seconds
+                Platform.runLater(this::updateUI);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    });
+    public void startRefreshing() {
+        refreshThread.start();
     }
 }
