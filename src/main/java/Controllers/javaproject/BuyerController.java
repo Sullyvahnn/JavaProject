@@ -20,6 +20,8 @@ public class BuyerController{
     public TableColumn<Auction, String> licitatorsNumberColumn;
     public TableView<Auction> table;
     public TextField OfferedAmountTextField;
+    public TextField PaymentAmountTextField;
+    public TextField BalanceTextField;
     public SplitMenuButton currentUserTextBox;
     public TextField accountStatus;
     private ObservableList<Auction> auctions;
@@ -96,4 +98,26 @@ public class BuyerController{
         }
 //
     }
+
+    public void onDeposit(ActionEvent actionEvent) {
+        try {
+            double depositAmount = Double.parseDouble(PaymentAmountTextField.getText());
+            currentUser.addMoney(depositAmount);
+            updateUI();
+        } catch (NumberFormatException e) {
+            HelloApplication.createAlert("Nieprawidłowa kwota wpłaty");
+        }
+    }
+
+    public void onCalculateDifference(ActionEvent actionEvent) {
+        try {
+            double depositAmount = currentUser.getMoney();
+            double bidAmount = Double.parseDouble(OfferedAmountTextField.getText());
+            double difference = depositAmount - bidAmount;
+            BalanceTextField.setText(String.valueOf(difference));
+        } catch (NumberFormatException e) {
+            HelloApplication.createAlert("Nieprawidłowe dane w polach kwot");
+        }
+    }
+
 }
